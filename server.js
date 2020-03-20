@@ -34,7 +34,7 @@ server.get('/resources', (req, res) => {
     });
 });
 
-server.get("/projects", (req, res) => {
+server.get('/projects', (req, res) => {
   db('projects')
     .select("*")
     .then(projects => {
