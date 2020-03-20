@@ -1,21 +1,70 @@
-const express = require('express');
-const helmet = require('helmet');
+const express = require("express");
+const helmet = require("helmet");
 
-const db = require('./dbConfig');
+const db = require("./dbConfig");
 
 const server = express();
 
 server.use(helmet);
 server.use(express.json());
 
-server.get('/projects', (req, res) => {
-    db('projects')
+server.post("/resources", (req, res) => {
+  db("resources")
+    .insert({
+      id: 5,
+      resourceName: "Guitar",
+      resourceDescription: "Used to write songs"
+    })
     .then(projects => {
-        res.status(200).json(projects);
+      res.status(201).json(projects);
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    });
+});
+
+server.get("/resources", (req, res) => {
+  db("resources")
+    .select("*")
+    .then(resources => {
+      res.status(201).json(resources);
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    });
+});
+
+server.get("/projects", (req, res) => {
+  db('projects')
+    .select("*")
+    .then(projects => {
+      res.status(200).json(projects);
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    });
+});
+
+server.post('/resources', (req, res) => {
+    db('resources')
+    .insert({ id: 4, resourceName: 'Spanner', resourceDescription: 'For opening bolts.' })
+    .then(resources => {
+        res.status(201).json(resources);
     })
     .catch(error => {
         res.status(500).json(error);
+    });
+});
+
+server.get('/tasks', (req, res) => {
+    db('tasks')
+    .select('*')
+    .then(tasks => {
+        res.status(200).json(tasks);
     })
+    .catch(error => {
+        res.status(500).json(error);
+    });
 })
 
 module.exports = server;
