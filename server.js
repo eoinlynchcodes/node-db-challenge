@@ -1,7 +1,7 @@
 const express = require("express");
 const helmet = require("helmet");
 
-const db = require("./dbConfig");
+// const db = require("./dbConfig");
 const helpers = require('./helpers');
 
 const server = express();
@@ -10,11 +10,12 @@ server.use(helmet());
 server.use(express.json());
 
 server.post('/resources', (req, res) => {
-  db('resources')
+  // db('resources')
+    helpers.addResource()
     .insert({
-      id: 5,
-      resourceName: "Guitar",
-      resourceDescription: "Used to write songs"
+      id: 7,
+      resourceName: "Truck",
+      resourceDescription: "Scania R580"
     })
     .then(projects => {
       res.status(201).json(projects);
@@ -35,8 +36,9 @@ server.get('/resources', (req, res) => {
 });
 
 server.get('/projects', (req, res) => {
-  db('projects')
-    .select("*")
+  // db('projects')
+  //   .select("*")
+    helpers.getAllProjects()
     .then(projects => {
       res.status(200).json(projects);
     })
@@ -45,9 +47,9 @@ server.get('/projects', (req, res) => {
     });
 });
 
-server.post('/resources', (req, res) => {
-    db('resources')
-    .insert({ id: 4, resourceName: 'Spanner', resourceDescription: 'For opening bolts.' })
+server.post('/resources/addTask', (req, res) => {
+    helpers.addTask()
+    .insert({ id: 2, taskDescription: 'Build Bike', notes: 'It needs to be ready for April.', description: 'It is for Tom Boonen', complete: false, projectID: 1 })
     .then(resources => {
         res.status(201).json(resources);
     })
@@ -57,14 +59,25 @@ server.post('/resources', (req, res) => {
 });
 
 server.get('/tasks', (req, res) => {
-    db('tasks')
-    .select('*')
+    // db('tasks')
+    // .select('*')
+    helpers.getTasks()
     .then(tasks => {
         res.status(200).json(tasks);
     })
     .catch(error => {
         res.status(500).json(error);
     });
+})
+
+server.get('/tasksProjectNameAndDescription', (req, res) => {
+  helpers.getTaskProjectNameAndDescription()
+  .then(task => {
+    res.status(200).json(task);
+  })
+  .catch(error => {
+    res.status(500).json(error);
+  })
 })
 
 module.exports = server;
