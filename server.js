@@ -10,7 +10,7 @@ server.use(helmet());
 server.use(express.json());
 
 server.post('/resources', (req, res) => {
-  db("resources")
+  db('resources')
     .insert({
       id: 5,
       resourceName: "Guitar",
