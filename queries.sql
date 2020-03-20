@@ -22,4 +22,7 @@ INSERT INTO resources (id, resourceName, resourceDescription)
 -- Retrieve a list of tasks
 
 SELECT * FROM tasks;
-SELECT * FROM tasks where id = 1;
+
+-- 6  retrieving a list of tasks. The list of tasks should include the project name and project description.
+SELECT projects.projectName, projects.projectDescription, tasks.taskDescription FROM tasks
+join projects on tasks.projectID = projects.id;

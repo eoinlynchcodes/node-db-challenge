@@ -2,13 +2,14 @@ const express = require("express");
 const helmet = require("helmet");
 
 const db = require("./dbConfig");
+const helpers = require('./helpers');
 
 const server = express();
 
-server.use(helmet);
+server.use(helmet());
 server.use(express.json());
 
-server.post("/resources", (req, res) => {
+server.post('/resources', (req, res) => {
   db("resources")
     .insert({
       id: 5,
@@ -23,10 +24,9 @@ server.post("/resources", (req, res) => {
     });
 });
 
-server.get("/resources", (req, res) => {
-  db("resources")
-    .select("*")
-    .then(resources => {
+server.get('/resources', (req, res) => {
+  helpers.getAllResources()
+  .then(resources => {
       res.status(201).json(resources);
     })
     .catch(error => {
